@@ -1,4 +1,6 @@
 import express from 'express';
+import mongoose from 'mongoose';
+import userRouter from './routers/userRouter.js';
 const products = [
     {
         _id: '1',
@@ -74,7 +76,11 @@ const products = [
     },
 ];
 const app = express();
-
+mongoose.connect("mongodb://localhost/amazona", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+})
 
 app.get('/api/products/:id', (req, res) => {
     const id = req.params.id;
@@ -90,11 +96,13 @@ app.get('/api/products/:id', (req, res) => {
 app.get('/api/products', (req, res) => {
     res.send(products);
 })
-
+app.use('/api/users', userRouter)
 app.get('/', (req, res) => {
     res.send('Server is ready 1');
 })
-
+app.use((err, req, res, next) => {
+    res.status(500).send({ message: err.message });
+})
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
     console.log(`Serve at http://localhost:${port}`);
