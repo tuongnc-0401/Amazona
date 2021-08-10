@@ -10,6 +10,7 @@ import {
 import useStyles from './styles'
 import ProductDetail from './components/Products/Product/ProductDetail/ProductDetail';
 import Cart from './components/Cart/Cart';
+import SignIn from './components/Signin/Signin';
 const App = () => {
   const classes = useStyles();
   return (
@@ -21,6 +22,7 @@ const App = () => {
         <Switch>
           <Route path='/' exact component={Products}></Route>
           <Route path='/product/:id' component={ProductDetail}></Route>
+          <Route path='/signin' component={SignIn}></Route>
           <Route path='/cart' component={Cart}></Route>
         </Switch>
 
