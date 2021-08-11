@@ -16,7 +16,7 @@ import React, { forwardRef, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import useStyles from "./styles";
 import Alert from "@material-ui/lab/Alert";
-import { Link as goBackCart } from "react-router-dom";
+import { Link as LinkReact } from "react-router-dom";
 import {
   updateCartItems,
   removeCartItems,
@@ -28,6 +28,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
+import CartNav from "../CartNav/CartNav";
 const Cart = () => {
   const classes = useStyles();
   const cartItems = useSelector((state) => state.cart.cartItems);
@@ -116,7 +117,7 @@ const Cart = () => {
       <Box mt={3} m={3}>
         <Alert severity="error">
           Your Cart is Empty!{" "}
-          <Link component={goBackCart} to="/">
+          <Link component={LinkReact} to="/">
             Go back the product
           </Link>
         </Alert>
@@ -139,44 +140,7 @@ const Cart = () => {
           </Alert>
         </Snackbar>
         {/* END ALERT QUANTITY ) */}
-        <Grid container>
-          <Grid item sm={12} md={8}>
-            <Box
-              display="flex"
-              mb={5}
-              alignItems="center"
-              justifyContent="center"
-            >
-              {navBar.map((name, index) => (
-                <>
-                  <Button
-                    variant="contained"
-                    className={
-                      index === 3
-                        ? classes.disabledButton
-                        : countButton >= index
-                        ? classes.buttonNavActive
-                        : classes.buttonNav
-                    }
-                    size="small"
-                    onClick={() => {
-                      index < 3 && setCountButton(index);
-                    }}
-                  >
-                    {name}
-                  </Button>
-                  {index < 3 && (
-                    <Box
-                      className={
-                        countButton > index ? classes.lineActive : classes.line
-                      }
-                    ></Box>
-                  )}
-                </>
-              ))}
-            </Box>
-          </Grid>
-        </Grid>
+        <CartNav></CartNav>
         <Box ml={6} mr={6}>
           <Grid container spacing={5}>
             <Grid item xs={12} sm={9}>
@@ -381,6 +345,8 @@ const Cart = () => {
                     <Divider variant="middle"></Divider>
                   </Box>
                   <Button
+                    component={LinkReact}
+                    to="/signin?redirect=shipping"
                     variant="contained"
                     color="secondary"
                     style={{ width: "100%" }}

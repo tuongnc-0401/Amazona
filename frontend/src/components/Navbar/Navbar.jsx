@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import {
@@ -8,6 +8,8 @@ import {
   Typography,
   Badge,
   Avatar,
+  MenuItem,
+  Menu,
 } from "@material-ui/core";
 import useStyles from "./styles.js";
 import { Link } from "react-router-dom";
@@ -18,9 +20,21 @@ const Navbar = () => {
   const { cartItems } = useSelector((state) => state.cart);
   const { userInfo } = useSelector((state) => state.userSignin);
   const dispatch = useDispatch();
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
   const signoutHandler = () => {
     dispatch(signout());
+    setAnchorEl(null);
   };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <AppBar className={classes.nav} style={{ marginBottom: "100px" }}>
       <Toolbar>
@@ -49,19 +63,38 @@ const Navbar = () => {
         </Link>
         {userInfo ? (
           <div>
-            <Button component={Link} to="/" className={classes.loginBtn}>
+            <Button onClick={handleMenu} className={classes.loginBtn}>
               <Avatar style={{ backgroundColor: " #f73471", color: "white" }}>
                 {userInfo.name.charAt(0)}
               </Avatar>
             </Button>
-            <Button
-              component={Link}
-              to="#signout"
-              onClick={signoutHandler}
-              className={classes.loginBtn}
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              style={{ marginTop: "40px" }}
+              open={open}
+              onClose={handleClose}
             >
-              logout
-            </Button>
+              <MenuItem onClick={handleClose}>Profile</MenuItem>
+              <MenuItem onClick={signoutHandler}>Log out</MenuItem>
+            </Menu>
+            {/* <Button
+                  component={Link}
+                  to="#signout"
+                  onClick={signoutHandler}
+                  className={classes.loginBtn}
+                >
+                  logout
+                </Button> */}
           </div>
         ) : (
           <Button component={Link} to="/signin" className={classes.loginBtn}>

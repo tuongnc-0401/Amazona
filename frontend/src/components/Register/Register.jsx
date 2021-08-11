@@ -13,13 +13,15 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useDispatch, useSelector } from "react-redux";
-import { signin } from "../../actions/userAction";
+import { register, signin } from "../../actions/userAction";
+import { useHistory, useLocation, Link as LinkReact } from "react-router-dom";
 import {
-  useHistory,
-  useLocation,
-  Link as LinkRegister,
-} from "react-router-dom";
-import { CircularProgress } from "@material-ui/core";
+  CircularProgress,
+  FormControl,
+  FormLabel,
+  Radio,
+  RadioGroup,
+} from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 
 const useStyles = makeStyles((theme) => ({
@@ -42,23 +44,58 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn(props) {
+export default function Register(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [dataForm, setDataForm] = useState({ email: "", password: "" });
+  const [dataForm, setDataForm] = useState({
+    email: "",
+    password: "",
+    name: "",
+    confirmPassword: "",
+    gender: "",
+  });
+
+  const [passError, setPassError] = useState(false);
   const handleDataForm = (e) => {
     setDataForm({ ...dataForm, [e.target.name]: e.target.value });
   };
   const location = useLocation();
-  const { userInfo, loading, error } = useSelector((state) => state.userSignin);
+  const { loading, error } = useSelector((state) => state.userRegister);
+  const { userInfo } = useSelector((state) => state.userSignin);
   const history = useHistory();
   //   const redirect = props.location.search
   //     ? props.location.search.split("=")[1]
   //     : "/";
+  function changeGender(value) {
+    switch (value) {
+      case "true":
+        return true;
+      case "false":
+        return false;
+      default:
+        break;
+    }
+  }
+
   const redirect = location.search ? location.search.split("=")[1] : "/";
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(signin(dataForm.email, dataForm.password));
+    if (
+      dataForm.password !== dataForm.confirmPassword ||
+      dataForm.password === ""
+    ) {
+      setPassError(true);
+    } else {
+      setPassError(false);
+      dispatch(
+        register(
+          dataForm.name,
+          dataForm.email,
+          dataForm.password,
+          changeGender(dataForm.gender)
+        )
+      );
+    }
   };
 
   useEffect(() => {
@@ -74,7 +111,7 @@ export default function SignIn(props) {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Create a free account
         </Typography>
         {loading && <CircularProgress style={{ marginTop: "10px" }} />}
         {error && (
@@ -82,8 +119,26 @@ export default function SignIn(props) {
             {error}
           </Alert>
         )}
+        {passError && (
+          <Alert style={{ marginTop: "10px" }} severity="error">
+            Passwords don't match!!!
+          </Alert>
+        )}
 
         <form className={classes.form} noValidate>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required="true"
+            fullWidth
+            id="name"
+            label="Name"
+            name="name"
+            value={dataForm.name}
+            autoComplete="name"
+            autoFocus
+            onChange={handleDataForm}
+          />
           <TextField
             variant="outlined"
             margin="normal"
@@ -94,7 +149,6 @@ export default function SignIn(props) {
             name="email"
             value={dataForm.email}
             autoComplete="email"
-            autoFocus
             onChange={handleDataForm}
           />
           <TextField
@@ -110,33 +164,54 @@ export default function SignIn(props) {
             onChange={handleDataForm}
             autoComplete="current-password"
           />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="confirmPassword"
+            label="Confirm Password"
+            type="password"
+            value={dataForm.confirmPassword}
+            id="confirmPassword"
+            onChange={handleDataForm}
+            autoComplete="current-password"
           />
+          <FormControl component="fieldset" style={{ marginTop: "10px" }}>
+            <FormLabel component="legend">Gender</FormLabel>
+            <RadioGroup
+              aria-label="gender"
+              name="gender"
+              value={dataForm.gender}
+              onChange={handleDataForm}
+            >
+              <FormControlLabel
+                value="false"
+                control={<Radio />}
+                label="Female"
+              />
+              <FormControlLabel value="true" control={<Radio />} label="Male" />
+            </RadioGroup>
+          </FormControl>
+
           <Button
             type="submit"
             fullWidth
             variant="contained"
-            color="primary"
+            style={{ backgroundColor: "#f73471", color: "white" }}
             className={classes.submit}
             onClick={handleSubmit}
           >
-            Sign In
+            Sign Up
           </Button>
           <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
             <Grid item>
               <Link
-                component={LinkRegister}
-                to={`/register?redirect=${redirect}`}
+                component={LinkReact}
+                to={`/signin?redirect=${redirect}`}
                 variant="body2"
               >
-                {"Don't have an account? Sign Up"}
+                {"Already have an account? Sign in"}
               </Link>
             </Grid>
           </Grid>

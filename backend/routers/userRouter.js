@@ -9,12 +9,14 @@ const userData = [
         email: "admin@gmail.com",
         password: bcrypt.hashSync('1234', 8),
         isAdmin: true,
+        gender: true,
     },
     {
         name: "user",
         email: "user@gmail.com",
         password: bcrypt.hashSync('1234', 8),
         isAdmin: true,
+        gender: false
     },
 ]
 
@@ -36,11 +38,31 @@ userRouter.post('/signin', expressAsyncHandler(async (req, res) => {
                 name: user.name,
                 email: user.email,
                 isAdmin: user.isAdmin,
+                gender: user.gender,
                 token: generateToken(user),
             })
             return;
         }
     }
     res.status(401).send({ message: "Invalid email or password!" })
+}))
+
+
+userRouter.post('/register', expressAsyncHandler(async (req, res) => {
+    const user = new User({
+        name: req.body.name,
+        email: req.body.email,
+        password: bcrypt.hashSync(req.body.password),
+        gender: req.body.gender
+    });
+    const createdUser = await user.save();
+    res.send({
+        _id: createdUser._id,
+        name: createdUser.name,
+        email: createdUser.email,
+        isAdmin: createdUser.isAdmin,
+        gender: createdUser.gender,
+        token: generateToken(createdUser),
+    })
 }))
 export default userRouter;

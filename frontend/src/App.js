@@ -11,6 +11,7 @@ import useStyles from './styles'
 import ProductDetail from './components/Products/Product/ProductDetail/ProductDetail';
 import Cart from './components/Cart/Cart';
 import SignIn from './components/Signin/Signin';
+import Register from './components/Register/Register';
 const App = () => {
   const classes = useStyles();
   return (
@@ -23,6 +24,7 @@ const App = () => {
           <Route path='/' exact component={Products}></Route>
           <Route path='/product/:id' component={ProductDetail}></Route>
           <Route path='/signin' component={SignIn}></Route>
+          <Route path='/register' component={Register}></Route>
           <Route path='/cart' component={Cart}></Route>
         </Switch>
 
