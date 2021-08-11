@@ -12,6 +12,7 @@ import ProductDetail from './components/Products/Product/ProductDetail/ProductDe
 import Cart from './components/Cart/Cart';
 import SignIn from './components/Signin/Signin';
 import Register from './components/Register/Register';
+import Shipping from './components/Shipping/Shipping';
 const App = () => {
   const classes = useStyles();
   return (
@@ -26,6 +27,7 @@ const App = () => {
           <Route path='/signin' component={SignIn}></Route>
           <Route path='/register' component={Register}></Route>
           <Route path='/cart' component={Cart}></Route>
+          <Route path='/shipping' component={Shipping}></Route>
         </Switch>
 
 
