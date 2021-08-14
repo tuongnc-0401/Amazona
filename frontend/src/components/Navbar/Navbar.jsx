@@ -12,15 +12,16 @@ import {
   Menu,
 } from "@material-ui/core";
 import useStyles from "./styles.js";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signout } from "../../actions/userAction.js";
+import { removeAllCartItems } from "../../actions/cartAction.js";
 const Navbar = () => {
   const classes = useStyles();
   const { cartItems } = useSelector((state) => state.cart);
   const { userInfo } = useSelector((state) => state.userSignin);
   const dispatch = useDispatch();
-
+  const history = useHistory();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleMenu = (event) => {
@@ -28,6 +29,8 @@ const Navbar = () => {
   };
   const signoutHandler = () => {
     dispatch(signout());
+    dispatch(removeAllCartItems());
+    history("/");
     setAnchorEl(null);
   };
 

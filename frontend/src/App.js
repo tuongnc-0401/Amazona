@@ -13,6 +13,8 @@ import Cart from './components/Cart/Cart';
 import SignIn from './components/Signin/Signin';
 import Register from './components/Register/Register';
 import Shipping from './components/Shipping/Shipping';
+import Payment from './components/Payment/Payment';
+import PlaceOrder from './components/PlaceOrder/PlaceOrder';
 const App = () => {
   const classes = useStyles();
   return (
@@ -28,6 +30,8 @@ const App = () => {
           <Route path='/register' component={Register}></Route>
           <Route path='/cart' component={Cart}></Route>
           <Route path='/shipping' component={Shipping}></Route>
+          <Route path='/payment' component={Payment}></Route>
+          <Route path='/placeorder' component={PlaceOrder}></Route>
         </Switch>
 
 

@@ -57,7 +57,7 @@ const CartNav = ({ current }) => {
               className={classes.buttonNavActive}
               size="small"
             >
-              Review
+              Place Order
             </Button>
           ) : (
             <Button
