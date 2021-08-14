@@ -15,6 +15,7 @@ import Register from './components/Register/Register';
 import Shipping from './components/Shipping/Shipping';
 import Payment from './components/Payment/Payment';
 import PlaceOrder from './components/PlaceOrder/PlaceOrder';
+import UserProfile from './components/Profile/UserProfile/UserProfile';
 const App = () => {
   const classes = useStyles();
   return (
@@ -32,6 +33,8 @@ const App = () => {
           <Route path='/shipping' component={Shipping}></Route>
           <Route path='/payment' component={Payment}></Route>
           <Route path='/placeorder' component={PlaceOrder}></Route>
+          <Route path='/userprofile' component={UserProfile}></Route>
+
         </Switch>
 
 

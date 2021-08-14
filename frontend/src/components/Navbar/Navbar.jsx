@@ -30,7 +30,7 @@ const Navbar = () => {
   const signoutHandler = () => {
     dispatch(signout());
     dispatch(removeAllCartItems());
-    history("/");
+    history.push("/");
     setAnchorEl(null);
   };
 
