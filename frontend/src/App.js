@@ -16,6 +16,7 @@ import Shipping from './components/Shipping/Shipping';
 import Payment from './components/Payment/Payment';
 import PlaceOrder from './components/PlaceOrder/PlaceOrder';
 import UserProfile from './components/Profile/UserProfile/UserProfile';
+import OrderDetails from './components/OrderDetails/OrderDetails';
 const App = () => {
   const classes = useStyles();
   return (
@@ -25,7 +26,7 @@ const App = () => {
         <div className={classes.toolbar}></div>
 
         <Switch>
-          <Route path='/' exact component={Products}></Route>
+          <Route path='/products' exact component={Products}></Route>
           <Route path='/product/:id' component={ProductDetail}></Route>
           <Route path='/signin' component={SignIn}></Route>
           <Route path='/register' component={Register}></Route>
@@ -34,6 +35,7 @@ const App = () => {
           <Route path='/payment' component={Payment}></Route>
           <Route path='/placeorder' component={PlaceOrder}></Route>
           <Route path='/userprofile' component={UserProfile}></Route>
+          <Route path='/order/:id' component={OrderDetails}></Route>
 
         </Switch>
 

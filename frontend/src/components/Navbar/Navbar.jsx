@@ -47,8 +47,8 @@ const Navbar = () => {
             <Button className={classes.loginBtn}>Home</Button>
           </Link>
 
-          <Button component={Link} to="/product/1" className={classes.loginBtn}>
-            Detail
+          <Button component={Link} to="/products" className={classes.loginBtn}>
+            Products
           </Button>
 
           <Button className={classes.loginBtn}>Meals</Button>
