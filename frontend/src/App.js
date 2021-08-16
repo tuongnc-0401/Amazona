@@ -17,6 +17,7 @@ import Payment from './components/Payment/Payment';
 import PlaceOrder from './components/PlaceOrder/PlaceOrder';
 import UserProfile from './components/Profile/UserProfile/UserProfile';
 import OrderDetails from './components/OrderDetails/OrderDetails';
+import OrderHistory from './components/Profile/OrderHistory/OrderHistory';
 const App = () => {
   const classes = useStyles();
   return (
@@ -35,6 +36,7 @@ const App = () => {
           <Route path='/payment' component={Payment}></Route>
           <Route path='/placeorder' component={PlaceOrder}></Route>
           <Route path='/userprofile' component={UserProfile}></Route>
+          <Route path='/orderhistory' component={OrderHistory}></Route>
           <Route path='/order/:id' component={OrderDetails}></Route>
 
         </Switch>

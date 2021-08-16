@@ -87,7 +87,13 @@ const Navbar = () => {
               open={open}
               onClose={handleClose}
             >
-              <MenuItem onClick={handleClose}>Profile</MenuItem>
+              <MenuItem
+                component={Link}
+                to="/userprofile"
+                onClick={handleClose}
+              >
+                Profile
+              </MenuItem>
               <MenuItem onClick={signoutHandler}>Log out</MenuItem>
             </Menu>
             {/* <Button
