@@ -10,44 +10,72 @@ import {
   FormControlLabel,
   Radio,
   Button,
+  CircularProgress,
 } from "@material-ui/core";
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import Alert from "@material-ui/lab/Alert";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { detailsUser } from "../../../actions/userAction";
 import ProfileNav from "../ProfileNav";
 import useStyles from "./styles";
 const UserProfile = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.userSignin);
-  userInfo.gender = userInfo.gender ? "true" : "false";
-  const [dataForm, setDataForm] = useState(userInfo);
+  const { loading, error, user } = useSelector((state) => state.userDetails);
+
+  const [dataForm, setDataForm] = useState({
+    name: "",
+    email: "",
+    gender: "",
+    password: "",
+    confirmPassword: "",
+  });
+
   const handleDataForm = (e) => {
     setDataForm({ ...dataForm, [e.target.name]: e.target.value });
   };
-  function changeGender(value) {
-    switch (value) {
-      case "true":
-        return true;
-      case "false":
-        return false;
-      default:
-        break;
-    }
-  }
+
+  // function changeGender(value) {
+  //     switch (value) {
+  //         case "true":
+  //             return true
+  //         case "false":
+  //             return false
+  //         default:
+  //             break;
+  //     }
+  // }
   const handleSubmit = (e) => {
     e.preventDefault();
   };
+  useEffect(() => {
+    if (!user && userInfo) {
+      dispatch(detailsUser(userInfo._id));
+    } else if (user) {
+      let gender1 = user.gender ? "true" : "false";
+      setDataForm({
+        ...user,
+        gender: gender1,
+        password: "",
+        confirmPassword: "",
+      });
+    }
+  }, [dispatch, user, userInfo]);
 
-  if (!userInfo) {
-    return <div></div>;
-  } else {
-    return (
-      <Box mt={5.5}>
-        <Box ml={6} mr={6}>
-          <Grid container spacing={5}>
-            <Grid item xs={12} md={3}>
-              <ProfileNav current={1}></ProfileNav>
-            </Grid>
+  return (
+    <Box mt={5.5}>
+      <Box ml={6} mr={6}>
+        <Grid container spacing={5}>
+          <Grid item xs={12} md={3}>
+            <ProfileNav current={1}></ProfileNav>
+          </Grid>
 
+          {loading ? (
+            <CircularProgress color="secondary" />
+          ) : error ? (
+            <Alert severity="error">{error}</Alert>
+          ) : (
             <Grid item xs={12} md={9}>
               <Box marginBottom={3}>
                 <Paper elevation={3} style={{ padding: "30px" }}>
@@ -145,11 +173,11 @@ const UserProfile = () => {
                 </Paper>
               </Box>
             </Grid>
-          </Grid>
-        </Box>
+          )}
+        </Grid>
       </Box>
-    );
-  }
+    </Box>
+  );
 };
 
 export default UserProfile;
